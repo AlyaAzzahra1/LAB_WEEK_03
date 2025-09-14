@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 
 class DetailFragment : Fragment() {
 
@@ -23,8 +25,14 @@ class DetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val coffeeId = arguments?.getInt(COFFEE_ID, 0) ?: 0
         setCoffeeData(coffeeId)
+
+        val btnBack = view.findViewById<Button>(R.id.btn_back)
+        btnBack.setOnClickListener {
+            findNavController().navigate(R.id.action_detailFragment_to_coffeeList)
+        }
     }
 
     private fun setCoffeeData(id: Int) {
@@ -41,11 +49,19 @@ class DetailFragment : Fragment() {
                 coffeeTitle?.text = getString(R.string.latte_title)
                 coffeeDesc?.text = getString(R.string.latte_desc)
             }
+            R.id.espresso -> {
+                coffeeTitle?.text = getString(R.string.espresso_title)
+                coffeeDesc?.text = getString(R.string.espresso_desc)
+            }
+            R.id.cappuccino -> {
+                coffeeTitle?.text = getString(R.string.cappuccino_title)
+                coffeeDesc?.text = getString(R.string.cappuccino_desc)
+            }
         }
     }
 
     companion object {
-        private const val COFFEE_ID = "COFFEE_ID"
+        const val COFFEE_ID = "COFFEE_ID"
 
         fun newInstance(coffeeId: Int) =
             DetailFragment().apply {
